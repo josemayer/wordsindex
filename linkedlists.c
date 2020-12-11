@@ -5,14 +5,6 @@
 
 /* Funções ok para par_info abaixo disso */
 
-void imprimeListaParInfos (celula * inicio) {
-  if (inicio != NULL) {
-    printf ("%d(%d) ", inicio->info.linha, inicio->info.ocorr);
-    imprimeListaParInfos (inicio->prox);
-  }
-  else printf("\n"); 
-}
-
 celula * insereNoFimParInfos (celula * inicio, item x) {
   if (inicio == NULL) {
     inicio = malloc (sizeof(celula));
@@ -25,23 +17,22 @@ celula * insereNoFimParInfos (celula * inicio, item x) {
   return inicio;
 } 
 
-/* Criar uma função para destruir lista de par de informações e chamá-la ao destruir as palavras, p valgrind nao tiltar */
+celula * buscaLinhaParInfos(celula * inicio, int x) {
+  if (inicio == NULL || inicio->info.linha == x)
+    return inicio;
+  return (buscaLinhaParInfos(inicio->prox, x));
+}
+
+void destroiListaInfos(celula * inicio){
+  celula * aux;
+  while(inicio != NULL){
+    aux = inicio;
+    inicio = inicio->prox;
+    free(aux);
+  }
+}
 
 /* Tudo ok abaixo disso */
-
-void imprimeListaPalavras (celula2 * inicio) {
-  if (inicio != NULL) {
-    printf ("%s ", inicio->info.palavra);
-    imprimeListaPalavras(inicio->prox);
-  }
-  else printf("\n"); 
-}
-
-celula2 * buscaPalavras (celula2 * inicio, char * x_palavra) {
-  if (inicio == NULL || strcmp(inicio->info.palavra, x_palavra) == 0)
-    return inicio;
-  return (buscaPalavras(inicio->prox, x_palavra));
-}
 
 celula2 * insereNoFimPalavras (celula2 * inicio, char * x_palavra) {
   if (inicio == NULL) {
@@ -59,6 +50,21 @@ celula2 * insereNoFimPalavras (celula2 * inicio, char * x_palavra) {
   else inicio->prox = insereNoFimPalavras (inicio->prox, x_palavra);
   
   return inicio;
-} 
-  
-/* Criar uma função para destruir a lista ligada de PALAVRAS p valgrind nao tiltar */
+}
+
+celula2 * buscaPalavras (celula2 * inicio, char * x_palavra) {
+  if (inicio == NULL || strcmp(inicio->info.palavra, x_palavra) == 0)
+    return inicio;
+  return (buscaPalavras(inicio->prox, x_palavra));
+}
+
+void destroiListaPalavras(celula2 * inicio){
+  celula2 * aux;
+  while(inicio != NULL){
+    aux = inicio;
+    inicio = inicio->prox;
+    free(aux->info.palavra);
+    destroiListaInfos(aux->info.lista_infos);
+    free(aux);
+  }
+}

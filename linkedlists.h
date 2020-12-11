@@ -13,8 +13,9 @@ typedef struct cel {
   struct cel * prox;
 } celula; 
 
-void imprimeListaParInfos (celula * inicio);
 celula * insereNoFimParInfos (celula * inicio, item x);
+celula * buscaLinhaParInfos(celula * inicio, int x);
+void destroiListaInfos(celula * inicio);
 
 typedef struct {
     char * palavra;
@@ -28,6 +29,6 @@ typedef struct cel2 {
   struct cel2 * prox;
 } celula2; 
 
-void imprimeListaPalavras (celula2 * inicio);
-celula2 * buscaPalavras (celula2 * inicio, char * x_palavra);
 celula2 * insereNoFimPalavras (celula2 * inicio, char * x_palavra);
+celula2 * buscaPalavras (celula2 * inicio, char * x_palavra);
+void destroiListaPalavras(celula2 * inicio);
