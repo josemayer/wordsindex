@@ -21,7 +21,7 @@ int funcao_de_hashing(char * palavra){
 }
 
 /* Função que converte todas as letras de uma palavra para minúsculas */
-char * normaliza_palavra(char * palavra){
+void normaliza_palavra(char * palavra){
     int i;
     int cod_char;
     char letra_minuscula;
@@ -81,12 +81,29 @@ void quickSort(celula2 ** lista, int inicio, int fim){
 }
 
 int main(int argc, char * argv[]){
+    int i;
+    char * palavra_lida;
+    char caractere;
+    int posicao_caractere = 0;
+    int armazenou_palavra = 0; /* 'Booleano' que indica se a palavra já foi ou não armazenada */
+    int linha_do_arquivo = 1;
+    int palavras_adicionadas = 0;
+    int indice_vetor = 0;
+    int posicao_na_tabela;
+    par_info informacao;
+    celula * celula_da_info;
+    celula * lista_de_informacoes;
+    celula2 ** tabela_de_hash;
+    celula2 ** v_celulas;
+    celula2 * celula_da_palavra;
+    celula2 * inicio_da_lista;
+    FILE * arq;
+
     if(argc != 2){
         printf("Uso: %s <nome do arquivo>\n", argv[0]);
         return 0;
     }
 
-    FILE * arq;
     arq = fopen(argv[1], "r");
 
     if(!arq) {
@@ -94,18 +111,8 @@ int main(int argc, char * argv[]){
         return 0;
     }
 
-    int i;
-    char * palavra_lida = malloc(MAX_TAM_PALAVRA * sizeof(char));
-    celula2 ** tabela_de_hash = malloc(MAX_TAM_TABELA * sizeof(celula *));
-    char caractere;
-    int posicao_caractere = 0;
-    int armazenou_palavra = 0; /* 'Booleano' que indica se a palavra já foi ou não armazenada */
-    int linha_do_arquivo = 1;
-    int palavras_adicionadas = 0;
-    int posicao_na_tabela;
-    par_info informacao;
-    celula2 * celula_da_palavra;
-    celula * celula_da_info;
+    palavra_lida = malloc(MAX_TAM_PALAVRA * sizeof(char));
+    tabela_de_hash = malloc(MAX_TAM_TABELA * sizeof(celula *));
 
     /* Inicializa todas as posições da tabela de hash com as listas vazias */
     for(i = 0; i < MAX_TAM_TABELA; i++){
@@ -186,9 +193,6 @@ int main(int argc, char * argv[]){
     }
 
     /* Cria um vetor de ponteiros de células com todas as palavras, que será ordenado de modo alfabético */
-    celula2 ** v_celulas;
-    celula2 * inicio_da_lista;
-    int indice_vetor = 0;
     v_celulas = malloc(palavras_adicionadas * sizeof(celula2 *));
     for(i = 0; i < MAX_TAM_TABELA; i++){
         inicio_da_lista = tabela_de_hash[i];
@@ -203,7 +207,6 @@ int main(int argc, char * argv[]){
     quickSort(v_celulas, 0, palavras_adicionadas - 1);
 
     /* Imprime as palavras do vetor de ponteiros, com as respectivas informações */
-    celula * lista_de_informacoes;
     for(i = 0; i < palavras_adicionadas; i++){
         printf("%s: ", v_celulas[i]->info.palavra);
         /* Para cada palavra, imprime as linhas em que ocorre e as suas ocorrências, ao modelo do enunciado */
