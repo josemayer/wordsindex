@@ -86,6 +86,14 @@ int main(int argc, char * argv[]){
         return 0;
     }
 
+    FILE * arq;
+    arq = fopen(argv[1], "r");
+
+    if(!arq) {
+        printf("O arquivo não existe ou seu nome foi digitado incorretamente.\n");
+        return 0;
+    }
+
     int i;
     char * palavra_lida = malloc(MAX_TAM_PALAVRA * sizeof(char));
     celula2 ** tabela_de_hash = malloc(MAX_TAM_TABELA * sizeof(celula *));
@@ -98,9 +106,6 @@ int main(int argc, char * argv[]){
     par_info informacao;
     celula2 * celula_da_palavra;
     celula * celula_da_info;
-
-    FILE * arq;
-    arq = fopen(argv[1], "r");
 
     /* Inicializa todas as posições da tabela de hash com as listas vazias */
     for(i = 0; i < MAX_TAM_TABELA; i++){
