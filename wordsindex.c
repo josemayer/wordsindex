@@ -122,7 +122,9 @@ int main(int argc, char * argv[]){
     /* Lê caractere por caractere até o fim do arquivo */
     while((caractere = fgetc(arq)) != EOF){
         /* Verifica se o caractere lido é um separador */
-        if(caractere == ' ' || caractere == '.' || caractere == ',' || caractere == ';' || caractere == '!' || caractere == '?' || caractere == ':' || caractere == '"' || caractere == '\n'){
+        if(caractere == ' ' || caractere == '.' || caractere == ',' || caractere == ';' || caractere == '!' ||
+           caractere == '?' || caractere == ':' || caractere == '"' || caractere == '(' || caractere == ')' || 
+           caractere == '[' || caractere == ']' || caractere == '{' || caractere == '}' || caractere == '\n'){
             /* Verifica se a palavra lida já foi armazenada */
             if(!armazenou_palavra){
                 posicao_na_tabela = funcao_de_hashing(palavra_lida);
