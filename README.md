@@ -5,3 +5,11 @@ This repository contains the files of the fourth exercise-program of the discipl
 ## Problem
 
 The problem description is detailed in file ep4.pdf of this repository.
+
+## Build
+
+To build program, use "make all".
+
+## Execute
+
+To execute program, use "./wordsindex <filename>
