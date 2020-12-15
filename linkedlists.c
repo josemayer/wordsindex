@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "linkedlists.h"
 
-/* Funções ok para par_info abaixo disso */
+/* Funções que manipulam a lista com os pares de informação */
 
 celula * insereNoFimParInfos (celula * inicio, item x) {
   if (inicio == NULL) {
@@ -32,7 +32,7 @@ void destroiListaInfos(celula * inicio){
   }
 }
 
-/* Tudo ok abaixo disso */
+/* Funções que manipulam a lista de palavras */
 
 celula2 * insereNoFimPalavras (celula2 * inicio, char * x_palavra) {
   if (inicio == NULL) {
