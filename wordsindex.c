@@ -124,7 +124,9 @@ int main(int argc, char * argv[]){
         /* Verifica se o caractere lido é um separador */
         if(caractere == ' ' || caractere == '.' || caractere == ',' || caractere == ';' || caractere == '!' ||
            caractere == '?' || caractere == ':' || caractere == '"' || caractere == '(' || caractere == ')' || 
-           caractere == '[' || caractere == ']' || caractere == '{' || caractere == '}' || caractere == '\n'){
+           caractere == '[' || caractere == ']' || caractere == '{' || caractere == '}' || caractere == '/' ||
+           caractere == '=' || caractere == '+' || caractere == '_' || caractere == '*' || caractere == '\n' ||
+           caractere == 39){
             /* Verifica se a palavra lida já foi armazenada */
             if(!armazenou_palavra){
                 posicao_na_tabela = funcao_de_hashing(palavra_lida);
