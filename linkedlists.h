@@ -1,5 +1,5 @@
 #define MAX_TAM_PALAVRA 50
-#define MAX_TAM_TABELA 353
+#define MAX_TAM_TABELA 1511
 
 typedef struct {
     int linha;
