@@ -126,38 +126,41 @@ int main(int argc, char * argv[]){
            caractere == '?' || caractere == ':' || caractere == '"' || caractere == '(' || caractere == ')' || 
            caractere == '[' || caractere == ']' || caractere == '{' || caractere == '}' || caractere == '/' ||
            caractere == '=' || caractere == '+' || caractere == '_' || caractere == '*' || caractere == '\n'){
-            /* Verifica se a palavra lida já foi armazenada */
-            if(!armazenou_palavra){
-                posicao_na_tabela = funcao_de_hashing(palavra_lida);
-                celula_da_palavra = buscaPalavras(tabela_de_hash[posicao_na_tabela], palavra_lida);
-                if(celula_da_palavra == NULL){
-                    /* Insere na tabela, caso não exista */
-                    tabela_de_hash[posicao_na_tabela] = insereNoFimPalavras(tabela_de_hash[posicao_na_tabela], palavra_lida);
-                    /* Incrementa o número de palavras adicionadas */
-                    palavras_adicionadas++;
-                    /* Faz celula_da_palavra apontar para a posição inserida */
+            /* Verifica se a palavra lida não é um hífen único ou uma aspa única */
+            if(strcmp(palavra_lida, "-") != 0 && strcmp(palavra_lida, "'") != 0){
+                /* Verifica se a palavra lida já foi armazenada */
+                if(!armazenou_palavra){
+                    posicao_na_tabela = funcao_de_hashing(palavra_lida);
                     celula_da_palavra = buscaPalavras(tabela_de_hash[posicao_na_tabela], palavra_lida);
-                    informacao.linha = linha_do_arquivo;
-                    informacao.ocorr = 1;
-                    /* Insere a informação primária da palavra, ou seja, a linha e 1 ocorrência */
-                    celula_da_palavra->info.lista_infos = insereNoFimParInfos(celula_da_palavra->info.lista_infos, informacao);
-                } else {
-                    /* Altera ou insere informações, caso já exista uma célula daquela palavra */
-                    celula_da_info = buscaLinhaParInfos(celula_da_palavra->info.lista_infos, linha_do_arquivo);
-                    if(celula_da_info == NULL){
-                        /* Se não tem uma célula que já possui o número daquela linha, insere uma nova célula de informação */
+                    if(celula_da_palavra == NULL){
+                        /* Insere na tabela, caso não exista */
+                        tabela_de_hash[posicao_na_tabela] = insereNoFimPalavras(tabela_de_hash[posicao_na_tabela], palavra_lida);
+                        /* Incrementa o número de palavras adicionadas */
+                        palavras_adicionadas++;
+                        /* Faz celula_da_palavra apontar para a posição inserida */
+                        celula_da_palavra = buscaPalavras(tabela_de_hash[posicao_na_tabela], palavra_lida);
                         informacao.linha = linha_do_arquivo;
                         informacao.ocorr = 1;
+                        /* Insere a informação primária da palavra, ou seja, a linha e 1 ocorrência */
                         celula_da_palavra->info.lista_infos = insereNoFimParInfos(celula_da_palavra->info.lista_infos, informacao);
                     } else {
-                        /* Caso já exista a célula da linha, incrementa a ocorrência naquela linha */
-                        celula_da_info->info.ocorr += 1;
+                        /* Altera ou insere informações, caso já exista uma célula daquela palavra */
+                        celula_da_info = buscaLinhaParInfos(celula_da_palavra->info.lista_infos, linha_do_arquivo);
+                        if(celula_da_info == NULL){
+                            /* Se não tem uma célula que já possui o número daquela linha, insere uma nova célula de informação */
+                            informacao.linha = linha_do_arquivo;
+                            informacao.ocorr = 1;
+                            celula_da_palavra->info.lista_infos = insereNoFimParInfos(celula_da_palavra->info.lista_infos, informacao);
+                        } else {
+                            /* Caso já exista a célula da linha, incrementa a ocorrência naquela linha */
+                            celula_da_info->info.ocorr += 1;
+                        }
                     }
+                    /* Zera o índice de posicao_caractere, para que uma nova palavra possa ser escrita a partir do começo, na string palavra_lida */
+                    posicao_caractere = 0;
+                    /* Marca que, nessa iteração, uma palavra foi armazenada, para evitar repetições em caso de múltiplos separadores*/
+                    armazenou_palavra = 1;
                 }
-                /* Zera o índice de posicao_caractere, para que uma nova palavra possa ser escrita a partir do começo, na string palavra_lida */
-                posicao_caractere = 0;
-                /* Marca que, nessa iteração, uma palavra foi armazenada, para evitar repetições em caso de múltiplos separadores*/
-                armazenou_palavra = 1;
             }
         } else {
             /* Lê caractere por caractere, formando a palavra em palavra_lida */
